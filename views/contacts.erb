@@ -1,6 +1,6 @@
 <ul>
   <% @contacts.each do |contact| %>
-    <li><%= contact %></li>
+    <li><a href="/contact/<%= contact[:id] %>"><%= contact[:name] %></a></li>
   <% end %>
 </ul>
 

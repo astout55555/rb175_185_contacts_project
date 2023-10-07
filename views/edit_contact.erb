@@ -1,0 +1,24 @@
+<h2>Edit <%= @contact[:name] %>'s Information:</h2>
+<form action="/contact/<%= @contact[:id] %>/edit" method="post">
+  <dl>
+    <dt>
+      <label for="name">Name:</label>
+    </dt>
+    <dd>
+      <input id="name" name="name" type="text" value="<%= @contact[:name] %>">
+    </dd>
+    <dt>
+      <label for="phone">Phone:</label>
+    </dt>
+    <dd>
+      <input id="phone" name="phone" type="text" value="<%= @contact[:phone] %>">
+    </dd>
+    <dt>
+      <label for="email">Email:</label>
+    </dt>
+    <dd>
+      <input id="email" name="email" type="text" value="<%= @contact[:email] %>">
+    </dd>
+  </dl>
+  <button type="submit">Confirm Changes</button>
+</form>

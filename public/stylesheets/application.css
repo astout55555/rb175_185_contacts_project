@@ -20,3 +20,8 @@
   color: #33cc99;
   background: #CBF2E5; 
 }
+
+.delete {
+  color: red;
+  font-weight: bold;
+}

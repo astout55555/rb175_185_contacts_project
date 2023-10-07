@@ -1,0 +1,20 @@
+<h2><%= @contact[:name] %>'s Information:</h2>
+<dl>
+  <dt>ID:</dt>
+  <dd><%= @contact[:id] %></dd>
+  <dt>Name:</dt>
+  <dd><%= @contact[:name] %></dd>
+  <dt>Phone:</dt>
+  <dd><%= @contact[:phone] %></dd>
+  <dt>Email:</dt>
+  <dd><%= @contact[:email] %></dd>
+</dl>
+
+<a href="/contact/<%= @contact[:id] %>/edit"><button>Edit Contact</button></a>
+<br>
+<br>
+<form action="/contact/<%= @contact[:id] %>/destroy" method="post">
+  <button class="delete" type="submit">Delete Contact</button>
+</form>
+<br>
+<a href="/contacts">Return to Home</a>
