@@ -1,3 +1,26 @@
+<fieldset>
+  <legend>Filter by category:</legend>
+  <form action="/contacts/filtered" method="post">
+    <input type="checkbox" id="friends" name="filters[]" value="friends"
+      <%= check_if_selected(@filters, "friends") %>>
+    <label for="friends">Friends</label>
+    
+    <input type="checkbox" id="family" name="filters[]" value="family"
+      <%= check_if_selected(@filters, "family") %>>
+    <label for="family">Family</label>
+    
+    <input type="checkbox" id="work" name="filters[]" value="work"
+      <%= check_if_selected(@filters, "work") %>>
+    <label for="work">Work</label>
+    
+    <input type="checkbox" id="other" name="filters[]" value="other"
+      <%= check_if_selected(@filters, "other") %>>
+    <label for="other">Other</label>
+
+    <button type="submit">Filter</button>
+  </form>
+</fieldset>
+
 <ul>
   <% @contacts.each do |contact| %>
     <li><a href="/contact/<%= contact[:id] %>"><%= contact[:name] %></a></li>

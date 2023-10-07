@@ -19,6 +19,17 @@
     <dd>
       <input id="email" name="email" type="text" value="<%= @contact[:email] %>">
     </dd>
+    <dt>
+      <label for="category">Category:</label>
+    </dt>
+    <dd>
+      <select id="category" name="category">
+        <option value="friends" <%= select_if_current_category(@contact, "friends") %>>Friends</option>
+        <option value="family" <%= select_if_current_category(@contact, "family") %>>Family</option>
+        <option value="work" <%= select_if_current_category(@contact, "work") %>>Work</option>
+        <option value="other" <%= select_if_current_category(@contact, "other") %>>Other</option>
+      </select>
+    </dd>
   </dl>
   <button type="submit">Confirm Changes</button>
 </form>

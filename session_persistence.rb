@@ -2,6 +2,26 @@ class SessionPersistence
   def initialize(session)
     @session = session
     @session[:contacts] ||= []
+    @session[:filters] ||= []
+  end
+
+  def filters
+    @session[:filters]
+  end
+
+  def select_filters(filters)
+    @session[:filters].pop until @session[:filters].empty?
+    until filters.empty?
+      @session[:filters] << filters.shift
+    end
+  end
+
+  def filtered_contacts(filters)
+    filtered_contacts = []
+    all_contacts.each do |contact|
+      filtered_contacts << contact if filters.include?(contact[:category])
+    end
+    filtered_contacts
   end
 
   def all_contacts
@@ -12,21 +32,23 @@ class SessionPersistence
     @session[:contacts].find { |contact| contact[:id] == id }
   end
 
-  def add_contact(name, phone, email)
+  def add_contact(name, phone, email, category)
     new_contact = {
       id: next_contact_id,
       name: name,
       phone: phone,
-      email: email
+      email: email,
+      category: category
     }
     @session[:contacts] << new_contact
   end
 
-  def update_contact(id, name, phone, email)
+  def update_contact(id, name, phone, email, category)
     contact = find_contact(id)
     contact[:name] = name
     contact[:phone] = phone
     contact[:email] = email
+    contact[:category] = category
   end
 
   def delete_contact(id)

@@ -16,7 +16,13 @@ configure(:development) do
 end
 
 helpers do
-  
+  def select_if_current_category(contact, category)
+    "selected" if contact[:category] == category
+  end
+
+  def check_if_selected(filters, category) # I'll see about adding this to contacts.erb after I get the filtering to work...
+    "checked" if filters.include?(category)
+  end
 end
 
 before do
@@ -33,8 +39,20 @@ get "/" do
 end
 
 get "/contacts" do
+  @filters = ["friends", "family", "work", "other"]
   @contacts = @storage.all_contacts
   erb :contacts
+end
+
+get "/contacts/filtered" do
+  @filters = @storage.filters
+  @contacts = @storage.filtered_contacts(@filters)
+  erb :contacts
+end
+
+post "/contacts/filtered" do
+  @storage.select_filters(params[:filters])
+  redirect "/contacts/filtered"
 end
 
 # View new contact page
@@ -47,7 +65,8 @@ post "/contacts/new" do
   contact_name = params[:name]
   phone = params[:phone]
   email = params[:email]
-  @storage.add_contact(contact_name, phone, email)
+  category = params[:category]
+  @storage.add_contact(contact_name, phone, email, category)
   redirect "/contacts"
 end
 
@@ -71,7 +90,8 @@ post "/contact/:id/edit" do
   name = params[:name]
   phone = params[:phone]
   email = params[:email]
-  @storage.update_contact(id, name, phone, email)
+  category = params[:category]
+  @storage.update_contact(id, name, phone, email, category)
   redirect "/contact/#{id}"
 end
 
