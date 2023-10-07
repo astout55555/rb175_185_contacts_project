@@ -5,19 +5,19 @@
         <label for="name">Please enter the name of the new contact:</label>
       </dt>
       <dd>
-        <input id="name" name="name" placeholder="Full Name" type="text" value="">
+        <input id="name" name="name" placeholder="Full Name" type="text" value="<%= params[:name] %>">
       </dd>
       <dt>
         <label for="phone">Please enter the phone number of the new contact:</label>
       </dt>
       <dd>
-        <input id="phone" name="phone" placeholder="123-456-7890" type="text" value="">
+        <input id="phone" name="phone" placeholder="(123) 456-7890" type="tel" value="<%= params[:phone] %>">
       </dd>
       <dt>
         <label for="email">Please enter the email of the new contact:</label>
       </dt>
       <dd>
-        <input id="email" name="email" placeholder="example@email.com" type="text" value="">
+        <input id="email" name="email" placeholder="example@email.com" type="email" value="<%= params[:email] %>">
       </dd>
       <dt>
         <label for="category">Please categorize the new contact:</label>

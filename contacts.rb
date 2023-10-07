@@ -33,25 +33,42 @@ after do
   
 end
 
+def error_for_name(name)
+  if name.strip.empty? || name.split.any?(/([^A-Z^a-z^\.^'])/)
+    "Please enter a valid name."
+  end
+end
+
+def retrieve_digits(phone)
+  phone.chars.select { |char| char.match?(/[0-9]/) }.join
+end
+
+def error_for_phone(digits)
+  if (digits.size) != 10
+    "Please enter a valid phone number."
+  end
+end
+
 # View all contacts (front page)
 get "/" do
   redirect "/contacts"
 end
 
+# Separate route/url so that one way of resetting filters is to navigate back to the home page
 get "/contacts" do
   @filters = ["friends", "family", "work", "other"]
   @contacts = @storage.all_contacts
   erb :contacts
 end
 
-# Separate route/url so that one way of removing filters is to navigate back to the home page
+# View filtered contacts
 get "/contacts/filtered" do
   @filters = @storage.filters
   @contacts = @storage.filtered_contacts(@filters)
   erb :contacts
 end
 
-# Submit form to change filters
+# Change filters
 post "/contacts/filtered" do
   @storage.set_filters(params[:filters])
   redirect "/contacts/filtered"
@@ -62,17 +79,26 @@ get "/contacts/new" do
   erb :new_contact
 end
 
-# Form to add a new contact
-post "/contacts/new" do
-  contact_name = params[:name]
+# Add a new contact
+post "/contacts/new" do 
+  name = params[:name].strip
   phone = params[:phone]
+  phone_digits = retrieve_digits(params[:phone])
   email = params[:email]
   category = params[:category]
-  @storage.add_contact(contact_name, phone, email, category)
-  redirect "/contacts"
+
+  error = error_for_name(name) || error_for_phone(phone_digits)
+  if error
+    session[:error] = error
+    erb :new_contact
+  else
+    session[:success] = "Contact successfully added."
+    @storage.add_contact(name, phone_digits, email, category)
+    redirect "/contacts"
+  end
 end
 
-# Pull up a single contact's details based on contact id from link
+# View a single contact's details based on contact id from link
 get "/contact/:id" do
   id = params[:id]
   @contact = @storage.find_contact(id)
@@ -86,15 +112,25 @@ get "/contact/:id/edit" do
   erb :edit_contact
 end
 
-# Contact editing form
+# Update contact details
 post "/contact/:id/edit" do
   id = params[:id]
   name = params[:name]
   phone = params[:phone]
+  phone_digits = retrieve_digits(phone)
   email = params[:email]
   category = params[:category]
-  @storage.update_contact(id, name, phone, email, category)
-  redirect "/contact/#{id}"
+
+  error = error_for_name(name) || error_for_phone(phone_digits)
+  if error
+    session[:error] = error
+    @contact = @storage.find_contact(id)
+    erb :edit_contact
+  else
+    session[:success] = "Contact successfully updated."
+    @storage.update_contact(id, name, phone_digits, email, category)
+    redirect "/contact/#{id}"
+  end
 end
 
 # Delete contact
