@@ -9,19 +9,12 @@ class SessionPersistence
     @session[:filters]
   end
 
-  def select_filters(filters)
-    @session[:filters].pop until @session[:filters].empty?
-    until filters.empty?
-      @session[:filters] << filters.shift
-    end
+  def set_filters(filters)
+    @session[:filters] = filters
   end
 
   def filtered_contacts(filters)
-    filtered_contacts = []
-    all_contacts.each do |contact|
-      filtered_contacts << contact if filters.include?(contact[:category])
-    end
-    filtered_contacts
+    all_contacts.select { |contact| filters.include?(contact[:category]) }
   end
 
   def all_contacts

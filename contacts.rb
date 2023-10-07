@@ -20,7 +20,7 @@ helpers do
     "selected" if contact[:category] == category
   end
 
-  def check_if_selected(filters, category) # I'll see about adding this to contacts.erb after I get the filtering to work...
+  def check_if_selected(filters, category)
     "checked" if filters.include?(category)
   end
 end
@@ -44,14 +44,16 @@ get "/contacts" do
   erb :contacts
 end
 
+# Separate route/url so that one way of removing filters is to navigate back to the home page
 get "/contacts/filtered" do
   @filters = @storage.filters
   @contacts = @storage.filtered_contacts(@filters)
   erb :contacts
 end
 
+# Submit form to change filters
 post "/contacts/filtered" do
-  @storage.select_filters(params[:filters])
+  @storage.set_filters(params[:filters])
   redirect "/contacts/filtered"
 end
 

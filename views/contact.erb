@@ -1,7 +1,5 @@
 <h2><%= @contact[:name] %>'s Information:</h2>
 <dl>
-  <dt>ID:</dt>
-  <dd><%= @contact[:id] %></dd>
   <dt>Name:</dt>
   <dd><%= @contact[:name] %></dd>
   <dt>Phone:</dt>
@@ -9,7 +7,7 @@
   <dt>Email:</dt>
   <dd><%= @contact[:email] %></dd>
   <dt>Category:</dt>
-  <dd><%= @contact[:category] %></dd>
+  <dd><%= @contact[:category].capitalize %></dd>
 </dl>
 
 <a href="/contact/<%= @contact[:id] %>/edit"><button>Edit Contact</button></a>
