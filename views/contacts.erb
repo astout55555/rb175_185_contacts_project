@@ -1,6 +1,6 @@
 <fieldset>
   <legend>Filter by category:</legend>
-  <form action="/contacts/filtered" method="post">
+  <form action="/contacts/filtered" method="get">
     <input type="checkbox" id="friends" name="filters[]" value="friends"
       <%= check_if_selected(@filters, "friends") %>>
     <label for="friends">Friends</label>

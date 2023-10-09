@@ -2,7 +2,7 @@ require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
 
-require_relative "session_persistence"
+require_relative "database_persistence" # "persistence_testing"
 
 configure do
   enable :sessions
@@ -12,7 +12,7 @@ end
 
 configure(:development) do
   require "sinatra/reloader"
-  also_reload "session_persistence.rb"
+  also_reload "database_persistence.rb" # "persistence_testing.rb"
 end
 
 helpers do
@@ -26,11 +26,11 @@ helpers do
 end
 
 before do
-  @storage = SessionPersistence.new(session)
+  @storage = DatabasePersistence.new(logger) # TestingPersistence.new(session)
 end
 
 after do
-  
+  @storage.disconnect
 end
 
 def error_for_name(name)
@@ -63,15 +63,9 @@ end
 
 # View filtered contacts
 get "/contacts/filtered" do
-  @filters = @storage.filters
+  @filters = params[:filters] ||= []
   @contacts = @storage.filtered_contacts(@filters)
   erb :contacts
-end
-
-# Change filters
-post "/contacts/filtered" do
-  @storage.set_filters(params[:filters])
-  redirect "/contacts/filtered"
 end
 
 # View new contact page
