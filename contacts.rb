@@ -2,7 +2,7 @@ require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
 
-require_relative "database_persistence" # "persistence_testing"
+require_relative "database_persistence"
 
 configure do
   enable :sessions
@@ -12,7 +12,7 @@ end
 
 configure(:development) do
   require "sinatra/reloader"
-  also_reload "database_persistence.rb" # "persistence_testing.rb"
+  also_reload "database_persistence.rb"
 end
 
 helpers do
@@ -26,7 +26,7 @@ helpers do
 end
 
 before do
-  @storage = DatabasePersistence.new(logger) # TestingPersistence.new(session)
+  @storage = DatabasePersistence.new(logger)
 end
 
 after do
