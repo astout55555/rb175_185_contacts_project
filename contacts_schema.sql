@@ -18,4 +18,4 @@ INSERT INTO contacts (name, phone, email, category)
                      ('Co Worker', '3333334444', 'anotherdayanother@dollar.com', 'work'),
                      ('Jane Doe', '4445556666', 'gonefishing@lake.com', 'friends'),
                      ('Joe Biggs', '7778889999', 'partyanimal@thebarn.com', 'friends'),
-                     ('DEATH', '987654321', 'memento@mori.com', 'other');
+                     ('DEATH', '9876543210', 'memento@mori.com', 'other');
